@@ -27,7 +27,7 @@ function createWindow() {
     });
     mainWindow.loadURL(getFramePath());
     mainWindow.setMenu(null);
-    mainWindow.webContents.openDevTools();
+    //mainWindow.webContents.openDevTools();
     mainWindow.on('closed', () => {
         mainWindow = null;
     })
