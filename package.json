@@ -1,0 +1,42 @@
+{
+  "name": "webtoon_viewer",
+  "version": "1.0.0",
+  "description": "Viewer for Naver Webtoon",
+  "main": "index.js",
+  "scripts": {
+    "dist": "electron-builder",
+    "start": "electron index.js"
+  },
+  "keywords": [],
+  "author": "Seo_Hyun <04seohyun@gmail.com>",
+  "license": "MIT",
+  "build": {
+    "productName": "Webtoon_Viewer",
+    "appId": "youtil.Webtoon_Viewer",
+    "artifactName": "Webtoon_Viewer.${ext}",
+    "directories": {
+      "output": "build"
+    },
+    "win": {
+      "extraFiles": [
+        "./logo.ico"
+      ],
+      "target": [
+        {
+          "target": "NSIS",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "./logo.ico"
+    },
+    "nsis": {
+      "createStartMenuShortcut": true
+    }
+  },
+  "devDependencies": {
+    "electron": "8.2.0",
+    "electron-builder": "22.4.1"
+  }
+}

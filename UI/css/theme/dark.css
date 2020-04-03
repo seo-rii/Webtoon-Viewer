@@ -1,0 +1,38 @@
+#titlebar {
+    background: #005026;
+    color: #ffffff;
+}
+
+body {
+    font-family: "Segoe UI", sans-serif;
+    background: #222222;
+    color: #ffffff;
+    border: 1px solid #005026;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+}
+
+.card:hover {
+    background: #333333;
+    transition: all .3s;
+}
+
+a {
+    color: white;
+}
+
+#section {
+    background: #222222;
+}
+
+#section > div {
+    color: white;
+    transition: all .3s;
+}
+
+#section > div.sel {
+    background-color: #005026;
+    color: white;
+}

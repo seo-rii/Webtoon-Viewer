@@ -1,0 +1,110 @@
+<html>
+<body>
+<div id="section">
+    <div data-date="mon" onclick="loadMain('mon')">월</div>
+    <div data-date="tue" onclick="loadMain('tue')">화</div>
+    <div data-date="wed" onclick="loadMain('wed')">수</div>
+    <div data-date="thu" onclick="loadMain('thu')">목</div>
+    <div data-date="fri" onclick="loadMain('fri')">금</div>
+    <div data-date="sat" onclick="loadMain('sat')">토</div>
+    <div data-date="sun" onclick="loadMain('sun')">일</div>
+</div>
+<br>
+<div class="intro" id="webtoonList"></div>
+<script>
+
+    var lastSelDay, isFirstRun = true, isCurrentlyRunning = false;
+    if (lastSelDay == null) {
+        loadMain(week = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'][new Date().getDay()])
+    } else {
+        tDay = lastSelDay;
+        lastSelDay = "";
+        loadMain(tDay);
+    }
+    var shadowIntv = setInterval(() => {
+        try {
+            if (document.getElementById('main').scrollTop != 0) document.getElementById('section').classList.add('secShadow');
+            else document.getElementById('section').classList.remove('secShadow');
+        } catch (e) {
+            clearInterval(shadowIntv);
+        }
+    }, 100);
+
+    function loadMain(day) {
+        if (day == lastSelDay) return;
+        if (isCurrentlyRunning) return;
+        isCurrentlyRunning = true;
+        elS = [];
+        fetch('https://m.comic.naver.com/webtoon/weekday.nhn?week=' + day).then(response => {
+            response.text().then(res => {
+                const parser = new DOMParser();
+                parser.parseFromString(res, 'text/html').querySelector('.list_toon').querySelectorAll('.item').forEach(el => {
+                    try {
+                        el = el.childNodes[1];
+                        if (el.nodeName == 'A') {
+                            let urlParams = new URLSearchParams(el.href.split('?')[1]);
+                            let template = document.createElement('template');
+                            template.innerHTML = `<a class="card" href="detail.html" data-id="${urlParams.get('titleId')}">
+    <div>
+        <img src="${el.querySelector('img').src}">
+        <div class="cardInfo">
+            <h2>${el.querySelector('.title').innerText}</h2>
+            <p>${el.querySelector('.author').innerText}</p>
+            ${el.querySelector('.favcount').innerHTML}
+        </div>
+    </div>
+</a>`;
+                            elS.push(template.content.firstChild);
+                        }
+                    } catch (e) {
+
+                    }
+                });
+                document.querySelectorAll('#section div').forEach(el => {
+                    el.classList.remove('sel');
+                    if (el.getAttribute('data-date') == day) el.classList.add('sel');
+                });
+                if (isFirstRun) {
+                    document.getElementById('webtoonList').innerHTML = "";
+                    elS.forEach(el => {
+                        document.getElementById('webtoonList').appendChild(el);
+                        el.addEventListener("click", e => {
+                            e.preventDefault();
+                            loadHTML(el.getAttribute('href'));
+                            webtoonId = el.getAttribute('data-id');
+                        });
+                    });
+                    document.getElementById('webtoonList').classList.add('intro');
+                    setTimeout(() => {
+                        document.getElementById('main').scrollTop = 0;
+                        document.getElementById('webtoonList').classList.remove('intro');
+                    }, 500)
+                } else {
+                    document.getElementById('webtoonList').classList.add('outtro');
+                    setTimeout(() => {
+                        document.getElementById('webtoonList').innerHTML = "";
+                        elS.forEach(el => {
+                            document.getElementById('webtoonList').appendChild(el);
+                            el.addEventListener("click", e => {
+                                e.preventDefault();
+                                loadHTML(el.getAttribute('href'));
+                                webtoonId = el.getAttribute('data-id');
+                            });
+                        });
+                        document.getElementById('webtoonList').classList.remove('outtro');
+                        document.getElementById('webtoonList').classList.add('intro');
+                        setTimeout(() => {
+                            document.getElementById('main').scrollTop = 0;
+                            document.getElementById('webtoonList').classList.remove('intro');
+                        }, 500)
+                    }, 500);
+                }
+                lastSelDay = day;
+                isFirstRun = false;
+                isCurrentlyRunning = false;
+            });
+        });
+    }
+</script>
+</body>
+</html>
