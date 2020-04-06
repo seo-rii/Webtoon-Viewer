@@ -12,7 +12,7 @@
     height: 120px;
     position: fixed;
     width: 100vw;
-    transition: all .5s;
+    transition: box-shadow .5s;
 }
 
 #webtoonList {
