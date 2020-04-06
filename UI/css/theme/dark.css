@@ -36,3 +36,7 @@ a {
     background-color: #005026;
     color: white;
 }
+
+.slider:before {
+    background-color: #222222;
+}

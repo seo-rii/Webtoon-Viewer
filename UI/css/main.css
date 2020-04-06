@@ -11,8 +11,8 @@
     z-index: 999;
     height: 120px;
     position: fixed;
-    width: 100vw;
-    transition: all .5s;
+    width: calc(100vw - 2px);
+    transition: box-shadow .5s;
 }
 
 #webtoonList {
