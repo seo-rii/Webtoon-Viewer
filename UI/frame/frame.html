@@ -48,6 +48,7 @@
 
 <script>
     require('../js/frameLess.js');
+    const setting = require('electron-settings');
     if (window.matchMedia('(prefers-color-scheme:dark)').matches) document.getElementById("theme").href = "../css/theme/dark.css";
     else document.getElementById("theme").href = "../css/theme/light.css";
 
