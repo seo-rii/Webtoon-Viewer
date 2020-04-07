@@ -68,6 +68,7 @@ body {
 }
 
 #main.hideContent {
+    height: calc(100% - 6px);
     margin-top: 5px;
     opacity: 0 !important;
     transition: all .5s ease-in;
@@ -221,4 +222,8 @@ body {
     margin-top: 0;
     overflow-y: auto;
     transition: all 0.3s;
+}
+
+* {
+    transition: background .5s;
 }

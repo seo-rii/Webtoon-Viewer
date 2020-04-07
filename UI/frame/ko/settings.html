@@ -10,15 +10,51 @@
             <input id="continue" type="checkbox">
             <span class="slider"></span>
         </label>
-        <br><br><br>
+        <br><br>
+        <h2>시스템 테마 사용</h2>
+        <br>
+        <label class="switch">
+            <input id="atheme" type="checkbox">
+            <span class="slider"></span>
+        </label>
+        <br><br>
+        <div id="themeForm">
+            <h2>다크 테마</h2>
+            <br>
+            <label class="switch">
+                <input id="dtheme" type="checkbox">
+                <span class="slider"></span>
+            </label>
+            <br><br>
+        </div>
+        <br>
         <a href="index.html">이전으로</a>
     </div>
 </div>
 <script type="text/javascript">
     function settings_init() {
         if (setting.get('continue')) document.getElementById('continue').click();
+        if (!setting.get('atheme')) {
+            document.getElementById('atheme').click();
+            document.getElementById('themeForm').style.display = 'none';
+        }
+        if (setting.get('dtheme')) document.getElementById('dtheme').click();
         document.getElementById('continue').addEventListener('click', () => {
             setting.set('continue', document.getElementById('continue').checked);
+        });
+        document.getElementById('atheme').addEventListener('click', () => {
+            setting.set('atheme', !document.getElementById('atheme').checked);
+            if (!setting.get('atheme')) document.getElementById('themeForm').style.display = 'none';
+            else {
+                document.getElementById('themeForm').style.display = '';
+                setting.set('dtheme', window.matchMedia('(prefers-color-scheme:dark)').matches);
+                document.getElementById('dtheme').checked = window.matchMedia('(prefers-color-scheme:dark)').matches;
+            }
+            loadTheme();
+        });
+        document.getElementById('dtheme').addEventListener('click', () => {
+            setting.set('dtheme', document.getElementById('dtheme').checked);
+            loadTheme();
         });
     }
 </script>

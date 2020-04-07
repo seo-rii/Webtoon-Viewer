@@ -50,7 +50,7 @@
                     let r = parseInt(bgColor.split(',')[0].split('(')[1]);
                     let g = parseInt(bgColor.split(',')[1]);
                     let b = parseInt(bgColor.split(',')[2]);
-                    if (window.matchMedia('(prefers-color-scheme:dark)').matches) {
+                    if (getTheme()) {
                         let maxIntense = Math.max(r, g, b);
                         r *= 100 / maxIntense;
                         g *= 100 / maxIntense;
