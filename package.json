@@ -12,7 +12,7 @@
   "license": "MIT",
   "build": {
     "productName": "Webtoon_Viewer",
-    "appId": "youtil.Webtoon_Viewer",
+    "appId": "youtil.webtoon.viewer",
     "artifactName": "Webtoon_Viewer.${ext}",
     "directories": {
       "output": "build"
@@ -40,6 +40,6 @@
     "electron-builder": "22.4.1"
   },
   "dependencies": {
-    "electron-settings": "^3.2.0"
+    "electron-settings": "3.2.0"
   }
 }
