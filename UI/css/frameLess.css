@@ -9,6 +9,7 @@
     border: 0;
     vertical-align: baseline;
     font-family: "nanum";
+    user-select: none;
 }
 
 #titlebar * {
