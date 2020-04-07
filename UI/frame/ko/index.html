@@ -8,7 +8,7 @@
     <div data-date="fri" onclick="loadMain('fri');">금</div>
     <div data-date="sat" onclick="loadMain('sat');">토</div>
     <div data-date="sun" onclick="loadMain('sun');">일</div>
-    <div data-date="fin" onclick="loadFin()">완결</div>
+    <div data-date="fin" onclick="loadMain('fin');">완결</div>
     <div data-date="setting" style="float:right;"><a href="settings.html">설정</a></div>
 </div>
 <br>
@@ -18,7 +18,7 @@
 
     function index_init() {
         if (lastSelDay == null) {
-            loadMain(week = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'][new Date().getDay()])
+            loadMain(['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'][new Date().getDay()])
         } else {
             tDay = lastSelDay;
             lastSelDay = "";
@@ -155,6 +155,10 @@
     }
 
     function loadMain(day) {
+        if (day === 'fin') {
+            loadFin();
+            return;
+        }
         if (day === lastSelDay) return;
         if (isCurrentlyRunning) return;
         isCurrentlyRunning = true;
