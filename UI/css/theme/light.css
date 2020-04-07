@@ -40,3 +40,8 @@ a {
 .slider:before {
     background-color: #ffffff;
 }
+
+.form__field {
+    color: #333333;
+    border-bottom: 1px solid #333333;
+}

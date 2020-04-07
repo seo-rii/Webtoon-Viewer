@@ -23,7 +23,8 @@ function createWindow() {
         webPreferences: {
             nodeIntegration: true,
             webSecurity: false
-        }
+        },
+        icon: `${__dirname}\\logo.ico`
     });
     mainWindow.loadURL(getFramePath());
     mainWindow.setMenu(null);
