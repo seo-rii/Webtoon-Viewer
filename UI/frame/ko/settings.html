@@ -7,12 +7,19 @@
         <h2>보던 위치에서 계속(베타)</h2>
         <br>
         <label class="switch">
-            <input type="checkbox">
+            <input id="continue" type="checkbox">
             <span class="slider"></span>
         </label>
         <br><br><br>
         <a href="index.html">이전으로</a>
     </div>
 </div>
+<script type="text/javascript">
+    const setting = require('electron-settings');
+    if (setting.get('continue')) document.getElementById('continue').click();
+    document.getElementById('continue').addEventListener('click', () => {
+        setting.set('continue', document.getElementById('continue').value);
+    })
+</script>
 </body>
 </html>
