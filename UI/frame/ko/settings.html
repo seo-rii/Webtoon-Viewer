@@ -18,7 +18,7 @@
     function settings_init() {
         if (setting.get('continue')) document.getElementById('continue').click();
         document.getElementById('continue').addEventListener('click', () => {
-            setting.set('continue', document.getElementById('continue').value);
+            setting.set('continue', document.getElementById('continue').checked);
         });
     }
 </script>
