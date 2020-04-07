@@ -61,6 +61,7 @@
     let webtoonId, episodeNo;
 
     let nowMainEl = document.getElementById('main'), nextMainEl, updatingFrame = false, nowPage;
+    let loadedPage = {};
 
     async function loadHTML(html) {
         if (updatingFrame) return;
@@ -77,7 +78,7 @@
             document.body.removeChild(nowMainEl);
             document.body.appendChild(nextMainEl);
             childrenArray.forEach(item => {
-                if (item.nodeName == "SCRIPT") {
+                if (item.nodeName == "SCRIPT" && !(html in loadedPage)) {
                     let jsItem = document.createElement('script');
                     jsItem.innerHTML = item.innerHTML;
                     document.getElementById('main').appendChild(jsItem);
@@ -89,6 +90,7 @@
                     loadHTML(el.getAttribute('href'));
                 });
             });
+            loadedPage[html] = true;
             setTimeout(() => {
                 nextMainEl.classList.remove('hiddenContent');
                 updatingFrame = false;
