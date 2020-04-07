@@ -1,26 +1,26 @@
 #webtoonInfo {
     left: 0;
     width: 30%;
-    max-width: 300px;
+    max-width: 250px;
     height: 100vh;
     position: fixed;
     background: #00D465;
     overflow: hidden;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    padding: 10px;
+    padding-top: 10px;
 }
 
-@media all and (max-width: 1000px) {
+@media all and (max-width: 833px) {
     #webtoonEpisodeList {
         margin-left: 30%;
         width: 70%;
     }
 }
 
-@media all and (min-width: 1000px) {
+@media all and (min-width: 833px) {
     #webtoonEpisodeList {
-        margin-left: 300px;
-        width: calc(100% - 300px);
+        margin-left: 250px;
+        width: calc(100% - 250px);
     }
 }
 
@@ -132,6 +132,7 @@
 #webtoonInfoText {
     position: absolute;
     margin-top: 200px;
+    padding: 10px;
 }
 
 #webtoonName {
