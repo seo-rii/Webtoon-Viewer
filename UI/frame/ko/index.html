@@ -14,25 +14,32 @@
 <br>
 <div class="intro" id="webtoonList"></div>
 <script>
+    let lastSelDay, isFirstRun = true, isCurrentlyRunning = false, finNow = 1, shadowIntv, finIntv;
 
-    var lastSelDay, isFirstRun = true, isCurrentlyRunning = false, finNow = 1;
-    if (lastSelDay == null) {
-        loadMain(week = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'][new Date().getDay()])
-    } else {
-        tDay = lastSelDay;
-        lastSelDay = "";
-        loadMain(tDay);
-    }
-    var shadowIntv = setInterval(() => {
-        try {
-            if (document.getElementById('main').scrollTop != 0) document.getElementById('section').classList.add('secShadow');
-            else document.getElementById('section').classList.remove('secShadow');
-        } catch (e) {
-            clearInterval(shadowIntv);
+    function index_init() {
+        if (lastSelDay == null) {
+            loadMain(week = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'][new Date().getDay()])
+        } else {
+            tDay = lastSelDay;
+            lastSelDay = "";
+            loadMain(tDay);
         }
-    }, 100);
+        shadowIntv = setInterval(() => {
+            try {
+                if (document.getElementById('main').scrollTop != 0) document.getElementById('section').classList.add('secShadow');
+                else document.getElementById('section').classList.remove('secShadow');
+            } catch (e) {
+                clearInterval(shadowIntv);
+            }
+        }, 100);
+        finIntv = null;
+    }
 
-    var finIntv = null;
+    function index_exit() {
+        clearInterval(shadowIntv);
+        clearInterval(finIntv);
+    }
+
 
     function setFinIntv() {
         if (finIntv) return;

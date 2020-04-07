@@ -18,88 +18,96 @@
 </form>
 <div id="webtoonEpisodeList"></div>
 <script type="text/javascript">
-    var loadedPage = 0, maxPage = 1;
-    var loadingPage = false;
-    loadedPage = 0;
-    fetch('https://m.comic.naver.com/webtoon/list.nhn?titleId=' + webtoonId)
-        .then(response => {
-            response.text().then(res => {
-                newEls = [];
-                const parser = new DOMParser();
-                let bgColor = parser.parseFromString(res, 'text/html').querySelector('.section_toon_info').style.backgroundColor;
-                let webtoonName = parser.parseFromString(res, 'text/html').querySelector('.title').innerText;
-                let webtoonAuthor = parser.parseFromString(res, 'text/html').querySelector('span.author').innerText + ' 작가';
-                let webtoonDesc = parser.parseFromString(res, 'text/html').querySelector('div.summary').innerHTML;
-                try {
-                    maxPage = parseInt(parser.parseFromString(res, 'text/html').querySelector('.total').innerText.replace(/[^\d.]/g, ''));
-                } catch (e) {
-                    maxPage = 1;
-                }
-                let r = parseInt(bgColor.split(',')[0].split('(')[1]);
-                let g = parseInt(bgColor.split(',')[1]);
-                let b = parseInt(bgColor.split(',')[2]);
-                if (window.matchMedia('(prefers-color-scheme:dark)').matches) {
-                    let maxIntense = Math.max(r, g, b);
-                    r *= 100 / maxIntense;
-                    g *= 100 / maxIntense;
-                    b *= 100 / maxIntense;
-                }
-                r = Math.round(r).toString();
-                g = Math.round(g).toString();
-                b = Math.round(b).toString();
-                document.getElementById('webtoonInfo').style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
 
-                document.getElementById('webtoonName').innerText = webtoonName;
-                document.getElementById('webtoonAuthor').innerText = webtoonAuthor;
-                document.getElementById('webtoonDesc').innerHTML = webtoonDesc;
-                try {
-                    parser.parseFromString(res, 'text/html').querySelector('.area_thumbnail').childNodes.forEach(el => {
-                        if (el.nodeName == "IMG") {
-                            let newEl = document.createElement('img');
-                            newEl.innerHTML = el.innerHTML;
-                            newEl.src = el.src;
-                            newEl.classList.add('thumbnailImg');
-                            newEls.push(newEl);
-                        }
-                    });
-                } catch (e) {
+    let loadedDeatilPage, maxPage, loadingPage, refIntv;
 
-                }
-                newEls.reverse();
-                try {
-                    parser.parseFromString(res, 'text/html').querySelector('.thumb_bg').childNodes.forEach(el => {
-                        if (el.nodeName == "IMG") {
-                            let newEl = document.createElement('img');
-                            newEl.innerHTML = el.innerHTML;
-                            newEl.src = el.src;
-                            newEl.classList.add('thumbnailBGImg');
-                            newEls.push(newEl);
-                        }
-                    });
-                } catch (e) {
+    function detail_init() {
+        loadedDeatilPage = 0;
+        maxPage = 1;
+        loadingPage = false;
+        refIntv = setInterval(() => {
+            if (nowPage != 'detail.html') {
+                clearInterval(refIntv);
+            }
+            if (loadedDeatilPage < maxPage && 100 > (document.getElementById('main').scrollHeight - document.getElementById('main').clientHeight) - document.getElementById('main').scrollTop) {
+                loadPage();
+            }
+        }, 100);
+        fetch('https://m.comic.naver.com/webtoon/list.nhn?titleId=' + webtoonId)
+            .then(response => {
+                response.text().then(res => {
+                    newEls = [];
+                    const parser = new DOMParser();
+                    let bgColor = parser.parseFromString(res, 'text/html').querySelector('.section_toon_info').style.backgroundColor;
+                    let webtoonName = parser.parseFromString(res, 'text/html').querySelector('.title').innerText;
+                    let webtoonAuthor = parser.parseFromString(res, 'text/html').querySelector('span.author').innerText + ' 작가';
+                    let webtoonDesc = parser.parseFromString(res, 'text/html').querySelector('div.summary').innerHTML;
+                    try {
+                        maxPage = parseInt(parser.parseFromString(res, 'text/html').querySelector('.total').innerText.replace(/[^\d.]/g, ''));
+                    } catch (e) {
+                        maxPage = 1;
+                    }
+                    let r = parseInt(bgColor.split(',')[0].split('(')[1]);
+                    let g = parseInt(bgColor.split(',')[1]);
+                    let b = parseInt(bgColor.split(',')[2]);
+                    if (window.matchMedia('(prefers-color-scheme:dark)').matches) {
+                        let maxIntense = Math.max(r, g, b);
+                        r *= 100 / maxIntense;
+                        g *= 100 / maxIntense;
+                        b *= 100 / maxIntense;
+                    }
+                    r = Math.round(r).toString();
+                    g = Math.round(g).toString();
+                    b = Math.round(b).toString();
+                    document.getElementById('webtoonInfo').style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
 
-                }
-                newEls.reverse();
-                newEls.forEach(el => {
-                    document.getElementById('thumbnail').appendChild(el);
-                })
+                    document.getElementById('webtoonName').innerText = webtoonName;
+                    document.getElementById('webtoonAuthor').innerText = webtoonAuthor;
+                    document.getElementById('webtoonDesc').innerHTML = webtoonDesc;
+                    try {
+                        parser.parseFromString(res, 'text/html').querySelector('.area_thumbnail').childNodes.forEach(el => {
+                            if (el.nodeName == "IMG") {
+                                let newEl = document.createElement('img');
+                                newEl.innerHTML = el.innerHTML;
+                                newEl.src = el.src;
+                                newEl.classList.add('thumbnailImg');
+                                newEls.push(newEl);
+                            }
+                        });
+                    } catch (e) {
+
+                    }
+                    newEls.reverse();
+                    try {
+                        parser.parseFromString(res, 'text/html').querySelector('.thumb_bg').childNodes.forEach(el => {
+                            if (el.nodeName == "IMG") {
+                                let newEl = document.createElement('img');
+                                newEl.innerHTML = el.innerHTML;
+                                newEl.src = el.src;
+                                newEl.classList.add('thumbnailBGImg');
+                                newEls.push(newEl);
+                            }
+                        });
+                    } catch (e) {
+
+                    }
+                    newEls.reverse();
+                    newEls.forEach(el => {
+                        document.getElementById('thumbnail').appendChild(el);
+                    })
+                });
             });
-        });
+    }
 
-    var refIntv = setInterval(() => {
-        if (nowPage != 'detail.html') {
-            clearInterval(refIntv);
-        }
-        if (loadedPage < maxPage && 100 > (document.getElementById('main').scrollHeight - document.getElementById('main').clientHeight) - document.getElementById('main').scrollTop) {
-            loadPage();
-        }
-    }, 100);
+    function detail_exit() {
+        clearInterval(refIntv);
+    }
 
     function loadPage() {
         if (loadingPage) return;
         loadingPage = true;
-        ++loadedPage;
-        fetch(`https://m.comic.naver.com/webtoon/list.nhn?titleId=${webtoonId}&sortOrder=DESC&page=${loadedPage}`)
+        ++loadedDeatilPage;
+        fetch(`https://m.comic.naver.com/webtoon/list.nhn?titleId=${webtoonId}&sortOrder=DESC&page=${loadedDeatilPage}`)
             .then(response => {
                 response.text().then(res => {
                     elS = [];

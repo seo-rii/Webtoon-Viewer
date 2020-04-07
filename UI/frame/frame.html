@@ -74,6 +74,11 @@
         nextMainEl.appendChild(childrenArray[0]);
         nextMainEl.classList.add('hiddenContent');
         nowMainEl.classList.add('hideContent');
+        try {
+            window[nowPage.split('.html')[0] + '_exit']();
+        } catch (e) {
+
+        }
         setTimeout(() => {
             document.body.removeChild(nowMainEl);
             document.body.appendChild(nextMainEl);
@@ -91,6 +96,11 @@
                 });
             });
             loadedPage[html] = true;
+            try {
+                window[html.split('.html')[0] + '_init']();
+            } catch (e) {
+
+            }
             setTimeout(() => {
                 nextMainEl.classList.remove('hiddenContent');
                 updatingFrame = false;
