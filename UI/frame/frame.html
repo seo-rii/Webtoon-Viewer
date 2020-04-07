@@ -49,8 +49,23 @@
 <script>
     require('../js/frameLess.js');
     const setting = require('electron-settings');
-    if (window.matchMedia('(prefers-color-scheme:dark)').matches) document.getElementById("theme").href = "../css/theme/dark.css";
-    else document.getElementById("theme").href = "../css/theme/light.css";
+
+    function getTheme() {
+        if (!setting.get('atheme')) {
+            if (window.matchMedia('(prefers-color-scheme:dark)').matches) return true;
+            else return false;
+        } else {
+            if (setting.get('dtheme')) return true;
+            else return false;
+        }
+    }
+
+    function loadTheme() {
+        if (getTheme()) document.getElementById("theme").href = "../css/theme/dark.css";
+        else document.getElementById("theme").href = "../css/theme/light.css";
+    }
+
+    loadTheme();
 
     const fs = require('fs');
     const {promisify} = require('util');

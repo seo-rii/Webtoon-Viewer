@@ -50,9 +50,11 @@
                 setting.set('dtheme', window.matchMedia('(prefers-color-scheme:dark)').matches);
                 document.getElementById('dtheme').checked = window.matchMedia('(prefers-color-scheme:dark)').matches;
             }
+            loadTheme();
         });
         document.getElementById('dtheme').addEventListener('click', () => {
             setting.set('dtheme', document.getElementById('dtheme').checked);
+            loadTheme();
         });
     }
 </script>

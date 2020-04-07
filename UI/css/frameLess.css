@@ -223,3 +223,7 @@ body {
     overflow-y: auto;
     transition: all 0.3s;
 }
+
+* {
+    transition: background .5s;
+}
