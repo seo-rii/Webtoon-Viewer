@@ -27,12 +27,12 @@ a {
     background-color: white;
 }
 
-#section > div {
+#section div div {
     color: black;
     transition: all .3s;
 }
 
-#section > div.sel {
+#section div div.sel {
     background-color: #00D465;
     color: white;
 }
@@ -48,4 +48,8 @@ a {
 
 #episodeName {
     background: #FFFFFF;
+}
+
+#section::-webkit-scrollbar-thumb {
+    background: #00D465;
 }

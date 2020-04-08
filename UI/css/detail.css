@@ -8,6 +8,7 @@
     overflow: hidden;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     padding-top: 10px;
+    z-index: 10;
 }
 
 @media all and (max-width: 833px) {
@@ -161,6 +162,7 @@
     animation-duration: .5s;
     animation-delay: 1.1s;
     animation-fill-mode: forwards;
+    z-index: 10;
 }
 
 .form__group {
@@ -212,6 +214,7 @@ label, .form__field:focus ~ .form__label {
     position: fixed;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     margin-top: 0;
+    z-index: 1;
 }
 
 #webtoonEpisodeList {

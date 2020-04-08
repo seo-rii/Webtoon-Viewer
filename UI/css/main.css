@@ -1,4 +1,4 @@
-#section > div {
+#section div div {
     font-size: 40px;
     float: left;
     padding: 10px 10px 5px;
@@ -12,6 +12,7 @@
     height: 120px;
     position: fixed;
     width: calc(100vw - 2px);
+    white-space: nowrap;
     transition: box-shadow .5s;
 }
 
@@ -41,13 +42,30 @@
     transition: all, width .3s;
 }
 
-#section > div.sel {
+#section div div.sel {
     margin-top: -60px;
     padding-top: 70px;
     transition: all .3s;
 }
 
-#section > div {
+#section div div {
     margin-top: -60px;
     padding-top: 70px;
+}
+
+#section > div {
+    min-width: 695px;
+    width: 100%;
+}
+
+@media all and (max-width: 695px) {
+    #section {
+        overflow-x: scroll;
+        height: 125px;
+    }
+}
+
+#section::-webkit-scrollbar {
+    width: 5px !important;
+    height: 5px !important;
 }
