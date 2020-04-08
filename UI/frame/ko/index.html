@@ -155,7 +155,7 @@
         isFirstRun = false;
     }
 
-    function loadRecent() {
+    async function loadRecent() {
         if (isCurrentlyRunning) return;
         lastSelDay = 'rec';
         isCurrentlyRunning = true;
@@ -179,20 +179,33 @@
             isCurrentlyRunning = false;
             return;
         } else {
-            recent.forEach(it => {
-                let template = document.createElement('template');
-                template.innerHTML = `<a class="card" href="detail.html" data-id="${it}">
+            for (const it of recent) {
+                try {
+                    await fetch('https://m.comic.naver.com/webtoon/list.nhn?titleId=' + it).then(res => res.text()).then(async res => {
+                        await fetch('https://comic.naver.com/webtoon/list.nhn?titleId=' + it).then(res2 => res2.text()).then(res2 => {
+                            const parser = new DOMParser();
+                            let webtoonName = parser.parseFromString(res, 'text/html').querySelector('.title').innerText;
+                            let webtoonAuthor = parser.parseFromString(res, 'text/html').querySelector('span.author').innerText + ' 작가';
+                            let webtoonInterest = '관심 ' + parser.parseFromString(res, 'text/html').querySelector('.count_num').innerText;
+                            let webtoonImage = parser.parseFromString(res2, 'text/html').querySelector('.thumb').querySelector('img').src;
+                            let template = document.createElement('template');
+                            template.innerHTML = `<a class="card" href="detail.html" data-id="${it}">
     <div>
-        <img src="${it}">
+        <img src="${webtoonImage}">
         <div class="cardInfo">
-            <h2>${it}</h2>
-            <p>${it}</p>
-            ${it}
+            <h2>${webtoonName}</h2>
+            <p>${webtoonAuthor}</p>
+            ${webtoonInterest}
         </div>
     </div>
 </a>`;
-                elS.push(template.content.firstChild);
-            });
+                            elS.push(template.content.firstChild);
+                        });
+                    });
+                } catch (e) {
+
+                }
+            }
             document.getElementById('webtoonList').classList.add('outtro');
             setTimeout(() => {
                 document.getElementById('webtoonList').innerHTML = "";
