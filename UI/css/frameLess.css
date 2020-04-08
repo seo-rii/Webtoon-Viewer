@@ -49,7 +49,7 @@ body {
     position: fixed;
     height: 32px;
     z-index: 9999;
-    width: calc(100% - 2px); /*Compensate for body 1px border*/
+    width: calc(100% - 2px);
 }
 
 #main {
