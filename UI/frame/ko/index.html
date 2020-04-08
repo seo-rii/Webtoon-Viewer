@@ -163,6 +163,10 @@
         if (isCurrentlyRunning) return;
         isCurrentlyRunning = true;
         elS = [];
+        document.querySelectorAll('#section div').forEach(el => {
+            el.classList.remove('sel');
+            if (el.getAttribute('data-date') == day) el.classList.add('sel');
+        });
         fetch('https://m.comic.naver.com/webtoon/weekday.nhn?week=' + day).then(response => {
             response.text().then(res => {
                 const parser = new DOMParser();
@@ -187,10 +191,6 @@
                     } catch (e) {
 
                     }
-                });
-                document.querySelectorAll('#section div').forEach(el => {
-                    el.classList.remove('sel');
-                    if (el.getAttribute('data-date') == day) el.classList.add('sel');
                 });
                 if (isFirstRun) {
                     document.getElementById('webtoonList').innerHTML = "";
