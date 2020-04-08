@@ -33,6 +33,15 @@
                 loadPage();
             }
         }, 100);
+        let recent = setting.get('recent');
+        if (!recent) recent = [webtoonId];
+        else {
+            if (recent.indexOf(webtoonId) >= 0) {
+                recent.splice(recent.indexOf(webtoonId), 1);
+            }
+            recent.unshift(webtoonId);
+        }
+        setting.set('recent', recent);
         fetch('https://m.comic.naver.com/webtoon/list.nhn?titleId=' + webtoonId)
             .then(response => {
                 response.text().then(res => {
