@@ -9,6 +9,7 @@
     <div data-date="sat" onclick="loadMain('sat');">토</div>
     <div data-date="sun" onclick="loadMain('sun');">일</div>
     <div data-date="fin" onclick="loadMain('fin');">완결</div>
+    <div data-date="rec" onclick="loadMain('rec');">최근</div>
     <div data-date="setting" style="float:right;"><a href="settings.html">설정</a></div>
 </div>
 <br>
@@ -154,9 +155,73 @@
         isFirstRun = false;
     }
 
+    function loadRecent() {
+        if (isCurrentlyRunning) return;
+        lastSelDay = 'rec';
+        isCurrentlyRunning = true;
+        elS = [];
+        document.querySelectorAll('#section div').forEach(el => {
+            el.classList.remove('sel');
+            if (el.getAttribute('data-date') == 'rec') el.classList.add('sel');
+        });
+        recent = setting.get('recent');
+        if (!recent) {
+            document.getElementById('webtoonList').classList.add('outtro');
+            setTimeout(() => {
+                document.getElementById('webtoonList').innerHTML = "<h2 style='margin-left: 10px;'>최근 본 웹툰이 없어요!</h2>";
+                document.getElementById('webtoonList').classList.remove('outtro');
+                document.getElementById('webtoonList').classList.add('intro');
+                setTimeout(() => {
+                    document.getElementById('main').scrollTop = 0;
+                    document.getElementById('webtoonList').classList.remove('intro');
+                }, 500)
+            }, 500);
+            isCurrentlyRunning = false;
+            return;
+        } else {
+            recent.forEach(it => {
+                let template = document.createElement('template');
+                template.innerHTML = `<a class="card" href="detail.html" data-id="${it}">
+    <div>
+        <img src="${it}">
+        <div class="cardInfo">
+            <h2>${it}</h2>
+            <p>${it}</p>
+            ${it}
+        </div>
+    </div>
+</a>`;
+                elS.push(template.content.firstChild);
+            });
+            document.getElementById('webtoonList').classList.add('outtro');
+            setTimeout(() => {
+                document.getElementById('webtoonList').innerHTML = "";
+                elS.forEach(el => {
+                    document.getElementById('webtoonList').appendChild(el);
+                    el.addEventListener("click", e => {
+                        e.preventDefault();
+                        loadHTML(el.getAttribute('href'));
+                        webtoonId = el.getAttribute('data-id');
+                    });
+                });
+                document.getElementById('webtoonList').classList.remove('outtro');
+                document.getElementById('webtoonList').classList.add('intro');
+                setTimeout(() => {
+                    document.getElementById('main').scrollTop = 0;
+                    document.getElementById('webtoonList').classList.remove('intro');
+                }, 500)
+            }, 500);
+            isCurrentlyRunning = false;
+        }
+    }
+
     function loadMain(day) {
         if (day === 'fin') {
             loadFin();
+            return;
+        }
+        if (day === 'rec') {
+            loadRecent();
             return;
         }
         if (day === lastSelDay) return;
