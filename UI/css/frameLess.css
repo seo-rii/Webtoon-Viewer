@@ -70,6 +70,7 @@ body {
 #main.hideContent {
     height: calc(100% - 6px);
     margin-top: 5px;
+    margin-bottom: 10px;
     opacity: 0 !important;
     transition: all .5s ease-in;
 }
